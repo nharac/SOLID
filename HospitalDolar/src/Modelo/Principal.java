@@ -1,5 +1,5 @@
-
 package Modelo;
+
 import CRUD.ActualizarMedicamento;
 import Conexiones.ConexionBD;
 import java.sql.Connection;
@@ -11,45 +11,41 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public final class Principal extends javax.swing.JFrame {
 
- 
     public Principal() throws SQLException {
-       
+
         initComponents();
         CargarTabla();
     }
-    
-    public void CargarTabla (){
-         DefaultTableModel modelo = new DefaultTableModel(
-        new Object[]{"id","nombre","descripcion","cantidad"}, 0
-    );
-    TablaMedicamentos.setModel(modelo);
 
-    try {
-        Connection conexion = ConexionBD.getConexion();
-        PreparedStatement ps = conexion.prepareStatement("SELECT * FROM medicamentos");
-        ResultSet rs = ps.executeQuery();
+    public void CargarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel(
+                new Object[]{"id", "nombre", "descripcion", "cantidad"}, 0
+        );
+        TablaMedicamentos.setModel(modelo);
+        
+        String estado = cmbEstado.getSelectedItem().toString();
 
-        while (rs.next()) {
-            modelo.addRow(new Object[]{
-                rs.getInt("id"),
-                rs.getString("nombre"),
-                rs.getString("descripcion"),
-                rs.getInt("cantidad")
-            });
+        try {
+            Connection conexion = ConexionBD.getConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE Estado = ?");
+            ps.setString(1, estado);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                modelo.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getString("nombre"),
+                    rs.getString("descripcion"),
+                    rs.getInt("cantidad")
+                });
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
     }
-    }
-
-    
-    
-
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,6 +58,7 @@ public final class Principal extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         Añadir = new javax.swing.JButton();
         btnDescripción = new javax.swing.JButton();
+        cmbEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,12 +98,19 @@ public final class Principal extends javax.swing.JFrame {
             }
         });
 
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        cmbEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnEliminar)
@@ -117,12 +121,18 @@ public final class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDescripción))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -130,7 +140,7 @@ public final class Principal extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDescripción))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(36, 36, 36))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,30 +162,33 @@ public final class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-   
-    int fila =TablaMedicamentos.getSelectedRow();
-    if (fila==-1){
-    JOptionPane.showMessageDialog(null, "Seleccione una fila");
-    return; 
-    }
-    int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
-    String Nombre =TablaMedicamentos.getValueAt(fila, 1).toString();
-    String Descripcion =TablaMedicamentos.getValueAt(fila, 2).toString();
-    int Cantidad = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 3).toString());
-    
+
+        int fila = TablaMedicamentos.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            return;
+        }
+        int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+        String Nombre = TablaMedicamentos.getValueAt(fila, 1).toString();
+        String Descripcion = TablaMedicamentos.getValueAt(fila, 2).toString();
+        int Cantidad = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 3).toString());
 
         ActualizarMedicamento ventana = new ActualizarMedicamento(Id, Nombre, Descripcion, Cantidad);
         ventana.setVisible(true);
 
 
-     
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDescripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescripciónActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDescripciónActionPerformed
 
-   
+    private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
+        // TODO add your handling code here:
+        
+        CargarTabla();
+    }//GEN-LAST:event_cmbEstadoActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -216,6 +229,7 @@ public final class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnDescripción;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

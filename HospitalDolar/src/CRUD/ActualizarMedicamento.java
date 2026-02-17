@@ -167,7 +167,7 @@ public class ActualizarMedicamento extends javax.swing.JFrame {
          ps.executeUpdate();
             
 
-         JOptionPane.showMessageDialog(null, "Medicamento Actualziado");
+         JOptionPane.showMessageDialog(null, "Medicamento Actualizado");
      } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Error: "+e.getMessage());
      }
