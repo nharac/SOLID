@@ -78,9 +78,13 @@ public final class Principal extends javax.swing.JFrame {
         cmbEstado = new javax.swing.JComboBox<>();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(201, 216, 234));
+
+        TablaMedicamentos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         TablaMedicamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -136,43 +140,48 @@ public final class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Medical Dolar - Gestión de Medicamentos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(103, 103, 103))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(btnBuscar)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))
+                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Añadir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDetalles))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnEliminar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEditar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Añadir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDetalles))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addGap(131, 131, 131)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -180,14 +189,16 @@ public final class Principal extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDetalles))
-                .addGap(36, 36, 36))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,39 +211,39 @@ public final class Principal extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
 
-        int fila = TablaMedicamentos.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione una fila");
-            return;
-        }
-        int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+        if (JOptionPane.showConfirmDialog(this, "Esta seguro de desactivar ese elemento?", "", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-        try {
-            EliminarMedicamento dm = new EliminarMedicamento();
-            dm.BuscarElementoAEliminar(Id);
-        } catch (SQLException e) {
-            System.out.println("Error al Eliminar Usuario: Error dentro del metodo");
+            int fila = TablaMedicamentos.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(null, "Seleccione una fila");
+                return;
+            }
+            int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+
+            try {
+                EliminarMedicamento dm = new EliminarMedicamento();
+                dm.BuscarElementoAEliminar(Id);
+            } catch (SQLException e) {
+                System.out.println("Error al Eliminar Usuario: Error dentro del metodo");
+            }
         }
 
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
- 
 
-    int fila =TablaMedicamentos.getSelectedRow();
-    
-    if (fila==-1){
-    JOptionPane.showMessageDialog(null, "Seleccione una fila");
-    return; 
-    }
-    
-    int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
-    String Nombre =TablaMedicamentos.getValueAt(fila, 1).toString();
-    String Descripcion =TablaMedicamentos.getValueAt(fila, 2).toString();
-    int Cantidad = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 3).toString());
-    
+        int fila = TablaMedicamentos.getSelectedRow();
 
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            return;
+        }
+
+        int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+        String Nombre = TablaMedicamentos.getValueAt(fila, 1).toString();
+        String Descripcion = TablaMedicamentos.getValueAt(fila, 2).toString();
+        int Cantidad = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 3).toString());
 
         ActualizarMedicamento ventana = new ActualizarMedicamento(Id, Nombre, Descripcion, Cantidad, this);
         ventana.setVisible(true);
@@ -248,29 +259,29 @@ public final class Principal extends javax.swing.JFrame {
             return;
         }
         int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
-        
+
         PreparedStatement ps;
         Connection conexion = ConexionBD.getConexion();
-        
-        try{
-        ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE id = ?");
-        ps.setInt(1, Id);
-        ResultSet rs = ps.executeQuery();
-        
-        while(rs.next()){
-            
-            Medicamento m = new Medicamento();
-            m.setID(rs.getInt("id"));
-            m.setNombre(rs.getString("nombre"));
-            m.setDescripcion(rs.getString("descripcion"));
-            m.setCantidad(rs.getInt("cantidad"));
-            m.setEstado(rs.getString("Estado"));
-            
-            DetallesMedicamento dm = new DetallesMedicamento(m);
-            dm.setVisible(true);
-        }
-        
-        } catch(SQLException e){
+
+        try {
+            ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE id = ?");
+            ps.setInt(1, Id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Medicamento m = new Medicamento();
+                m.setID(rs.getInt("id"));
+                m.setNombre(rs.getString("nombre"));
+                m.setDescripcion(rs.getString("descripcion"));
+                m.setCantidad(rs.getInt("cantidad"));
+                m.setEstado(rs.getString("Estado"));
+
+                DetallesMedicamento dm = new DetallesMedicamento(m);
+                dm.setVisible(true);
+            }
+
+        } catch (SQLException e) {
             System.out.println("Error al encontrar el medicamento ");
         }
     }//GEN-LAST:event_btnDetallesActionPerformed
@@ -292,11 +303,10 @@ public final class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirActionPerformed
-       AgregarMedicamento ventana = new AgregarMedicamento (this);
-       ventana.setVisible(true);
+        AgregarMedicamento ventana = new AgregarMedicamento(this);
+        ventana.setVisible(true);
     }//GEN-LAST:event_AñadirActionPerformed
 
-   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -339,6 +349,7 @@ public final class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtBuscar;
