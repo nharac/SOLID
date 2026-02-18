@@ -1,6 +1,7 @@
 package Modelo;
 
 import CRUD.ActualizarMedicamento;
+import CRUD.DetallesMedicamento;
 import CRUD.EliminarMedicamento;
 import Conexiones.ConexionBD;
 import java.sql.Connection;
@@ -17,22 +18,35 @@ public final class Principal extends javax.swing.JFrame {
     public Principal() throws SQLException {
 
         initComponents();
-        CargarTabla();
+        CargarTabla("");
     }
 
-    public void CargarTabla() {
+    public void CargarTabla(String nombre) {
+
+        PreparedStatement ps;
+        ResultSet rs;
+
         DefaultTableModel modelo = new DefaultTableModel(
                 new Object[]{"id", "nombre", "descripcion", "cantidad"}, 0
         );
         TablaMedicamentos.setModel(modelo);
 
         String estado = cmbEstado.getSelectedItem().toString();
-
         try {
-            Connection conexion = ConexionBD.getConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE Estado = ?");
-            ps.setString(1, estado);
-            ResultSet rs = ps.executeQuery();
+            if (!nombre.isEmpty()) {
+                Connection conexion = ConexionBD.getConexion();
+                ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE Estado = ? AND nombre LIKE ?");
+                ps.setString(1, estado);
+                ps.setString(2, "%" + nombre + "%");
+                rs = ps.executeQuery();
+            } else {
+
+                Connection conexion = ConexionBD.getConexion();
+                ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE Estado = ?");
+                ps.setString(1, estado);
+                rs = ps.executeQuery();
+
+            }
 
             while (rs.next()) {
                 modelo.addRow(new Object[]{
@@ -42,7 +56,6 @@ public final class Principal extends javax.swing.JFrame {
                     rs.getInt("cantidad")
                 });
             }
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
@@ -58,8 +71,10 @@ public final class Principal extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         Añadir = new javax.swing.JButton();
-        btnDescripción = new javax.swing.JButton();
+        btnDetalles = new javax.swing.JButton();
         cmbEstado = new javax.swing.JComboBox<>();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,10 +107,10 @@ public final class Principal extends javax.swing.JFrame {
 
         Añadir.setText("Añadir");
 
-        btnDescripción.setText("Descripción");
-        btnDescripción.addActionListener(new java.awt.event.ActionListener() {
+        btnDetalles.setText("Detalles");
+        btnDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDescripciónActionPerformed(evt);
+                btnDetallesActionPerformed(evt);
             }
         });
 
@@ -103,6 +118,13 @@ public final class Principal extends javax.swing.JFrame {
         cmbEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbEstadoActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -114,33 +136,42 @@ public final class Principal extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Añadir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDescripción))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(btnBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnEliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEditar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Añadir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDetalles))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(52, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
                     .addComponent(btnEditar)
                     .addComponent(Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDescripción))
+                    .addComponent(btnDetalles))
                 .addGap(36, 36, 36))
         );
 
@@ -196,15 +227,55 @@ public final class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnDescripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescripciónActionPerformed
+    private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDescripciónActionPerformed
+        int fila = TablaMedicamentos.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            return;
+        }
+        int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+        
+        PreparedStatement ps;
+        Connection conexion = ConexionBD.getConexion();
+        
+        try{
+        ps = conexion.prepareStatement("SELECT * FROM medicamentos WHERE id = ?");
+        ps.setInt(1, Id);
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            
+            Medicamento m = new Medicamento();
+            m.setID(rs.getInt("id"));
+            m.setNombre(rs.getString("nombre"));
+            m.setDescripcion(rs.getString("descripcion"));
+            m.setCantidad(rs.getInt("cantidad"));
+            m.setEstado(rs.getString("Estado"));
+            
+            DetallesMedicamento dm = new DetallesMedicamento(m);
+            dm.setVisible(true);
+        }
+        
+        } catch(SQLException e){
+            System.out.println("Error al encontrar el medicamento ");
+        }
+    }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
         // TODO add your handling code here:
 
-        CargarTabla();
+        CargarTabla(txtBuscar.getText());
     }//GEN-LAST:event_cmbEstadoActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+
+        String nombreMedicamento = txtBuscar.getText();
+        CargarTabla(nombreMedicamento);
+
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -243,11 +314,13 @@ public final class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Añadir;
     private javax.swing.JTable TablaMedicamentos;
-    private javax.swing.JButton btnDescripción;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnDetalles;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

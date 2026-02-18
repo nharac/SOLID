@@ -35,7 +35,7 @@ public class EliminarMedicamento {
                 
             }
         }catch(SQLException e){
-            System.out.println("Error al eliminar el usuario: Usuario no encontrado");
+            System.out.println("Error al eliminar el usuario: Error de Consulta");
         }
                 
     }
