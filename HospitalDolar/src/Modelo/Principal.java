@@ -1,6 +1,7 @@
 package Modelo;
 
 import CRUD.ActualizarMedicamento;
+import CRUD.EliminarMedicamento;
 import Conexiones.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,7 @@ public final class Principal extends javax.swing.JFrame {
                 new Object[]{"id", "nombre", "descripcion", "cantidad"}, 0
         );
         TablaMedicamentos.setModel(modelo);
-        
+
         String estado = cmbEstado.getSelectedItem().toString();
 
         try {
@@ -159,6 +160,22 @@ public final class Principal extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+
+        int fila = TablaMedicamentos.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            return;
+        }
+        int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+
+        try {
+            EliminarMedicamento dm = new EliminarMedicamento();
+            dm.BuscarElementoAEliminar(Id);
+        } catch (SQLException e) {
+            System.out.println("Error al Eliminar Usuario: Error dentro del metodo");
+        }
+
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -185,7 +202,7 @@ public final class Principal extends javax.swing.JFrame {
 
     private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
         // TODO add your handling code here:
-        
+
         CargarTabla();
     }//GEN-LAST:event_cmbEstadoActionPerformed
 
