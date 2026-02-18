@@ -1,7 +1,11 @@
 package Modelo;
 
 import CRUD.ActualizarMedicamento;
+
 import CRUD.EliminarMedicamento;
+
+import CRUD.AgregarMedicamento;
+
 import Conexiones.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +21,7 @@ public final class Principal extends javax.swing.JFrame {
     public Principal() throws SQLException {
 
         initComponents();
+       
         CargarTabla();
     }
 
@@ -91,6 +96,11 @@ public final class Principal extends javax.swing.JFrame {
         });
 
         Añadir.setText("Añadir");
+        Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AñadirActionPerformed(evt);
+            }
+        });
 
         btnDescripción.setText("Descripción");
         btnDescripción.addActionListener(new java.awt.event.ActionListener() {
@@ -179,18 +189,23 @@ public final class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+ 
 
-        int fila = TablaMedicamentos.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione una fila");
-            return;
-        }
-        int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
-        String Nombre = TablaMedicamentos.getValueAt(fila, 1).toString();
-        String Descripcion = TablaMedicamentos.getValueAt(fila, 2).toString();
-        int Cantidad = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 3).toString());
+    int fila =TablaMedicamentos.getSelectedRow();
+    
+    if (fila==-1){
+    JOptionPane.showMessageDialog(null, "Seleccione una fila");
+    return; 
+    }
+    
+    int Id = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 0).toString());
+    String Nombre =TablaMedicamentos.getValueAt(fila, 1).toString();
+    String Descripcion =TablaMedicamentos.getValueAt(fila, 2).toString();
+    int Cantidad = Integer.parseInt(TablaMedicamentos.getValueAt(fila, 3).toString());
+    
 
-        ActualizarMedicamento ventana = new ActualizarMedicamento(Id, Nombre, Descripcion, Cantidad);
+
+        ActualizarMedicamento ventana = new ActualizarMedicamento(Id, Nombre, Descripcion, Cantidad, this);
         ventana.setVisible(true);
 
 
@@ -200,11 +215,20 @@ public final class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDescripciónActionPerformed
 
+
     private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
         // TODO add your handling code here:
 
         CargarTabla();
     }//GEN-LAST:event_cmbEstadoActionPerformed
+
+
+    private void AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirActionPerformed
+       AgregarMedicamento ventana = new AgregarMedicamento ();
+       ventana.setVisible(true);
+    }//GEN-LAST:event_AñadirActionPerformed
+
+   
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

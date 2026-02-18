@@ -6,13 +6,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-public class ActualizarMedicamento extends javax.swing.JFrame {
 
- int idMedicamento;
-    public ActualizarMedicamento(int Id, String Nombre, String Descripcion, int Cantidad) {
+public class ActualizarMedicamento extends javax.swing.JFrame {
+private final Principal principal;
+int idMedicamento;
+    
+public ActualizarMedicamento(int Id, String Nombre, String Descripcion, int Cantidad, Principal p) {
         initComponents();
-        idMedicamento=Id;
-        
+        this.idMedicamento = Id;
+        this.principal = p;
+       
         txtNombre.setText(Nombre);
         txtDescripcion.setText(Descripcion);
         txtId.setText(String.valueOf(Id));
@@ -164,8 +167,14 @@ public class ActualizarMedicamento extends javax.swing.JFrame {
         ps.setInt(4, idMedicamento);
 
        
+
          ps.executeUpdate();
             
+
+
+        ps.executeUpdate();
+        principal.CargarTabla();
+        
 
          JOptionPane.showMessageDialog(null, "Medicamento Actualizado");
      } catch (SQLException e) {
