@@ -124,7 +124,7 @@ private Principal p;
             int cantidad = Integer.parseInt(txtCantidad.getText());
         
             Connection conexion = ConexionBD.getConexion();
-            PreparedStatement ps =conexion.prepareStatement("INSERT INTO medicamentos (nombre, descripcion, cantidad VALUE (? ? ?)");
+            PreparedStatement ps =conexion.prepareStatement("INSERT INTO medicamentos (nombre, descripcion, cantidad VALUE (?, ?, ?)");
             
             ps.setString(1, descripcion);
             ps.setString(2, nombre);
