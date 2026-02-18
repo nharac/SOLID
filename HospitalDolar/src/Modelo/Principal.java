@@ -292,7 +292,7 @@ public final class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirActionPerformed
-       AgregarMedicamento ventana = new AgregarMedicamento ();
+       AgregarMedicamento ventana = new AgregarMedicamento (this);
        ventana.setVisible(true);
     }//GEN-LAST:event_AñadirActionPerformed
 

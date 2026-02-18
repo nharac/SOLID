@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 public class AgregarMedicamento extends javax.swing.JFrame {
 private Principal p;
     
-    public AgregarMedicamento() {
+    public AgregarMedicamento(Principal p) {
         initComponents();
         this.p = p;
     }
@@ -117,17 +117,18 @@ private Principal p;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         try{
             String nombre = txtNombre.getText();
             String descripcion = txtDescripcion.getText();
             int cantidad = Integer.parseInt(txtCantidad.getText());
         
             Connection conexion = ConexionBD.getConexion();
-            PreparedStatement ps =conexion.prepareStatement("INSERT INTO medicamentos (nombre, descripcion, cantidad VALUE (?, ?, ?)");
+
+            PreparedStatement ps =conexion.prepareStatement("INSERT INTO medicamentos (nombre, descripcion, cantidad) VALUES (?, ?, ?)");
             
-            ps.setString(1, descripcion);
-            ps.setString(2, nombre);
+            ps.setString(1, nombre);
+            ps.setString(2, descripcion);
             ps.setInt(3, cantidad);
             
             ps.executeUpdate();
@@ -136,40 +137,6 @@ private Principal p;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage() );
     }
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-   
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AgregarMedicamento().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
